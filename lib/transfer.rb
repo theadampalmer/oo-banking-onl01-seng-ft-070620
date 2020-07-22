@@ -2,39 +2,24 @@ require 'pry'
 
 class Transfer
   
-  def initialize
+  def initialize(send, receiver, status = "pending", amount)
     @sender = sender
     @receiver = receiver
-    @status = "pending"
+    @status = status
     @amount = amount
   end
 
   def valid?
-      if (sender.valid? && receiver.valid?)
-        true
-      else
-        false
-      end
+    self.sender.valid? && self.receiver.valid?
   end
 
-  def execute_transaction
-    if @status == "complete"
-
-    elsif (@receiver.status == "closed" || @sender.balance - amount < 0)
-      @status = "rejected"
-      "Transaction rejected. Please check your account balance."
-    else
-      @sender.balance -= @amount
-      @receiver.deposit(@amount)
-      @status = "complete"
-    end
-  end
+  # def execute_transaction
+  # end
 
   def reverse_transfer
     if @status == "complete"
-      @receiver.balance -= @amount
-      @sender.deposit(@amount)
-      @status = "reversed"
+      self.sender.depost
+      self.status = "reversed"
     end
   end
 
