@@ -20,11 +20,13 @@ class Transfer
       @receiver.balance += @amount
       @status = "complete"
     else
-      @status = "rejected"
+      reject_transfer
     end
-    # binding.pry
   end
 
+  def reject_transfer
+    self.status = "rejected"
+    
   def reverse_transfer
     if self.status == "complete"
       sender.balance += self.amount
